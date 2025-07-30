@@ -80,7 +80,7 @@ cp .env.example .env
 Edit the `.env` file with your configuration:
 ```env
 NODE_ENV=development
-PORT=5000
+PORT=5001
 JWT_SECRET=your_super_secure_jwt_secret_key_here
 JWT_EXPIRE=7d
 
@@ -102,7 +102,7 @@ cd frontend
 npm install
 
 # Optional: Create environment file for custom API URL
-echo "REACT_APP_API_URL=http://localhost:6000/api" > .env
+echo "REACT_APP_API_URL=http://localhost:5001/api" > .env
 ```
 
 ## 🚀 Running the Application
@@ -114,7 +114,7 @@ echo "REACT_APP_API_URL=http://localhost:6000/api" > .env
 cd backend
 npm run dev
 ```
-The backend will run on `http://localhost:6000`
+The backend will run on `http://localhost:5001`
 
 2. **Start the Frontend Development Server:**
 ```bash

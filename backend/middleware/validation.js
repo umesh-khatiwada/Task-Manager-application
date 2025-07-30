@@ -58,8 +58,16 @@ const taskValidation = [
   body('end_date')
     .isISO8601()
     .withMessage('End date must be a valid date')
-    .isAfter(new Date().toISOString().split('T')[0])
-    .withMessage('End date must be in the future'),
+    .custom((value) => {
+      const inputDate = new Date(value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Set to start of today
+      
+      if (inputDate < today) {
+        throw new Error('End date cannot be in the past');
+      }
+      return true;
+    }),
   
   body('completed')
     .optional()

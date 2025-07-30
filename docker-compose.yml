@@ -19,9 +19,10 @@ services:
   backend:
     build: ./backend
     ports:
-      - "5000:5000"
+      - "6000:6000"
     environment:
       NODE_ENV: production
+      PORT: 6000
       DB_HOST: postgres
       DB_PORT: 5432
       DB_NAME: task_manager

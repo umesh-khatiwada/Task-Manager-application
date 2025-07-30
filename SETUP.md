@@ -27,7 +27,7 @@
 cd backend
 npm start
 ```
-The backend will run on http://localhost:6000
+The backend will run on http://localhost:5001
 
 #### Start Frontend Development Server:
 ```bash
@@ -90,7 +90,7 @@ docker-compose up --build
 
 **Backend (.env):**
 - `NODE_ENV` - Environment (development/production)
-- `PORT` - Server port (default: 5000)
+- `PORT` - Server port (default: 5001)
 - `JWT_SECRET` - Secret key for JWT tokens
 - `JWT_EXPIRE` - JWT expiration time
 - `DB_HOST` - Database host

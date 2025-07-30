@@ -13,7 +13,7 @@ RUN npm ci --only=production
 COPY . .
 
 # Expose port
-EXPOSE 5000
+EXPOSE 5001
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs
