@@ -27,7 +27,7 @@
 cd backend
 npm start
 ```
-The backend will run on http://localhost:5000
+The backend will run on http://localhost:6000
 
 #### Start Frontend Development Server:
 ```bash

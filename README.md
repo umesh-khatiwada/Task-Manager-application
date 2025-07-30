@@ -102,7 +102,7 @@ cd frontend
 npm install
 
 # Optional: Create environment file for custom API URL
-echo "REACT_APP_API_URL=http://localhost:5000/api" > .env
+echo "REACT_APP_API_URL=http://localhost:6000/api" > .env
 ```
 
 ## 🚀 Running the Application
@@ -114,7 +114,7 @@ echo "REACT_APP_API_URL=http://localhost:5000/api" > .env
 cd backend
 npm run dev
 ```
-The backend will run on `http://localhost:5000`
+The backend will run on `http://localhost:6000`
 
 2. **Start the Frontend Development Server:**
 ```bash
