@@ -66,9 +66,12 @@ export const validateEmail = (email) => {
 };
 
 export const validatePassword = (password) => {
-  // At least 6 characters, one uppercase, one lowercase, one number
-  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{6,}$/;
-  return re.test(password);
+  // At least one lowercase, one uppercase, one digit, min 6 characters
+  const re = /[a-z]/.test(password) &&
+             /[A-Z]/.test(password) &&
+             /\d/.test(password) &&
+             password.length >= 6;
+  return re;
 };
 
 // Local storage helpers
