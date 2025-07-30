@@ -340,7 +340,7 @@ CREATE TABLE tasks (
 
 ## 👨‍💻 Author
 
-Your Name - your.email@example.com
+Your Name - contact.khatiwaxx@gmail.com
 
 Project Link: [https://github.com/umesh-khatiwada/Task-Manager-application](https://github.com/umesh-khatiwada/Task-Manager-application)
 
