@@ -5,7 +5,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'https://task-manager-api.do.um
 // Create axios instance
 const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true,
+  withCredentials: false,
   headers: {
     'Content-Type': 'application/json',
   },
