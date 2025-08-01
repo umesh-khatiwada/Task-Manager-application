@@ -6,7 +6,7 @@ metadata:
   labels:
     app: frontend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -29,11 +29,11 @@ spec:
               key: API_URL
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "100m"
+            memory: "12Mi"
+            cpu: "10m"
           limits:
-            memory: "256Mi"
-            cpu: "250m"
+            memory: "100Mi"
+            cpu: "100m"
         livenessProbe:
           httpGet:
             path: /

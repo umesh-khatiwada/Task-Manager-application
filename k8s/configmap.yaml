@@ -5,11 +5,11 @@ metadata:
   namespace: task-manager
 data:
   NODE_ENV: "production"
-  DB_HOST: "postgres-service"
+  PORT: "8000"
+  DB_HOST: "dpg-d253gj49c44c73b5tdfg-a.oregon-postgres.render.com"
   DB_PORT: "5432"
-  DB_NAME: "task_manager"
-  DB_USER: "postgres"
+  DB_NAME: "postgress_sr1k"
+  DB_USER: "postgress_sr1k_user"
   JWT_EXPIRE: "7d"
-  CLIENT_URL: "https://task-manager.example.com"
-  BACKEND_PORT: "5000"
-  REACT_APP_API_URL: "https://api.task-manager.example.com/api"
+  CLIENT_URL: "http://localhost:3000"
+  API_URL: "http://backend-service/api"
