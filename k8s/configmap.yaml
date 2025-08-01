@@ -11,5 +11,5 @@ data:
   DB_NAME: "postgress_sr1k"
   DB_USER: "postgress_sr1k_user"
   JWT_EXPIRE: "7d"
-  CLIENT_URL: "http://localhost:3000"
+  CLIENT_URL: "https://task-manager-frontend.do.umeshkhatiwada.com.np"
   API_URL: "https://task-manager-api.do.umeshkhatiwada.com.np/api"

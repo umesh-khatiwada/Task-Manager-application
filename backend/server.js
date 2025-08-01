@@ -28,41 +28,28 @@ app.use(cookieParser());
 // Enable CORS
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:3000',
-  credentials: true
+  credentials: true,
 }));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'healthy', 
+  res.status(200).json({
+    status: 'healthy',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
   });
 });
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/tasks', taskRoutes);
-
-// Mount routers
 app.use('/api', authRoutes);
 app.use('/api/tasks', taskRoutes);
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'API is running',
-    timestamp: new Date().toISOString()
-  });
-});
 
 // Handle undefined routes
 app.all('*', (req, res) => {
   res.status(404).json({
     success: false,
-    message: `Route ${req.originalUrl} not found`
+    message: `Route ${req.originalUrl} not found`,
   });
 });
 
@@ -76,7 +63,7 @@ const server = app.listen(PORT, () => {
 });
 
 // Handle unhandled promise rejections
-process.on('unhandledRejection', (err, promise) => {
+process.on('unhandledRejection', (err, _promise) => {
   console.log(`Error: ${err.message}`);
   // Close server & exit process
   server.close(() => {
