@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: umesh1212/backend-todo:v1
+        image: umesh1212/backend-todo:v4
         imagePullPolicy: Always
         ports:
         - containerPort: 8000

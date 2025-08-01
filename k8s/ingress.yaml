@@ -23,18 +23,11 @@ spec:
   - host: task-manager-api.do.umeshkhatiwada.com.np
     http:
       paths:
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: backend-service
-            port:
-              number: 80
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: frontend-service
+            name: backend-service
             port:
               number: 80
 ---
