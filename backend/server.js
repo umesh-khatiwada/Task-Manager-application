@@ -28,7 +28,7 @@ app.use(cookieParser());
 // Enable CORS
 app.use(cors({
   origin: '*',
-  credentials: true,
+  credentials: false, // Set to false when using origin: '*'
 }));
 
 // Health check endpoint
