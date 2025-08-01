@@ -1,4 +1,4 @@
-#!/bin/bash
+cd ..#!/bin/bash
 
 # Docker Build Script for Task Manager Application
 # This script builds and pushes both frontend and backend Docker images
