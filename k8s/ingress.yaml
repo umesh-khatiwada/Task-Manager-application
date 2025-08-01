@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: task-manager-ingress
+  name: task-manager-api-ingress
   namespace: task-manager
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -17,10 +17,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - task-manager.yourdomain.com
-    secretName: task-manager-tls
+    - task-manager-api.do.umeshkhatiwada.com.np
+    secretName: task-manager-api-tls
   rules:
-  - host: task-manager.yourdomain.com
+  - host: task-manager-api.do.umeshkhatiwada.com.np
     http:
       paths:
       - path: /api
@@ -41,7 +41,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: task-manager-ingress-local
+  name: task-manager-ingress-frontend
   namespace: task-manager
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -52,19 +52,17 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - task-manager-frontend.do.umeshkhatiwada.com.np
+    secretName: task-manager-frontend-tls
   rules:
-  - host: localhost
+  - host: task-manager-frontend.do.umeshkhatiwada.com.np
     http:
       paths:
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: backend-service
-            port:
-              number: 80
       - path: /
         pathType: Prefix
         backend:
