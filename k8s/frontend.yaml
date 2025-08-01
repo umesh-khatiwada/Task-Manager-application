@@ -20,8 +20,10 @@ spec:
         image: umesh1212/frontend-todo:v1
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 3000
         env:
+        - name: API_URL
+          value: "https://task-manager-api.do.umeshkhatiwada.com.np/api"
         - name: REACT_APP_API_URL
           valueFrom:
             configMapKeyRef:
@@ -48,6 +50,6 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 80
+    targetPort: 3000
     protocol: TCP
   type: ClusterIP
