@@ -13,6 +13,15 @@ RUN npm ci --only=production
 # Copy the rest of the application code
 COPY . .
 
+# Create .env from template (will be overridden by Kubernetes env vars)
+COPY .env.template .env
+
+# Create a default .env file with production defaults
+RUN echo "NODE_ENV=production" > .env && \
+    echo "PORT=8000" >> .env && \
+    echo "JWT_EXPIRE=7d" >> .env && \
+    echo "CLIENT_URL=http://localhost:3000" >> .env
+
 # Expose the port your app runs on
 EXPOSE 8000
 
