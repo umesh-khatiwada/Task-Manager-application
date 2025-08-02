@@ -17,11 +17,13 @@ spec:
     spec:
       containers:
       - name: backend
-        image: umesh1212/backend-todo:v4
+        image: umesh1212/backend-todo:v9
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
         env:
+        - name: REACT_APP_API_URL
+          value: "https://task-manager-api.do.umeshkhatiwada.com.np"
         - name: NODE_ENV
           valueFrom:
             configMapKeyRef:
