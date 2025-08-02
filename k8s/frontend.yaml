@@ -18,7 +18,7 @@ spec:
       containers:
       - name: frontend
         image: umesh1212/frontend-todo:v3
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
         env:
