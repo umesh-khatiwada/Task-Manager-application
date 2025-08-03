@@ -106,7 +106,8 @@ export const AuthProvider = ({ children }) => {
 
   // Load user on app start
   useEffect(() => {
-    if (state.token) {
+    const token = localStorage.getItem('token');
+    if (token) {
       loadUser();
     } else {
       dispatch({ type: AUTH_ACTIONS.LOAD_USER_FAIL });

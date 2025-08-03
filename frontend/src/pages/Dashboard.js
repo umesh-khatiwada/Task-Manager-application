@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTask } from '../context/TaskContext';
 import TaskCard from '../components/TaskCard';
 import TaskModal from '../components/TaskModal';
 import Loading from '../components/Loading';
-import { FiPlus, FiFilter, FiRefreshCw } from 'react-icons/fi';
+import { FiPlus, FiRefreshCw } from 'react-icons/fi';
 
 const Dashboard = () => {
   const {
@@ -29,14 +29,15 @@ const Dashboard = () => {
     completed: '',
   });
 
+  // Load tasks function with useCallback to prevent unnecessary re-renders
+  const loadTasks = useCallback(async () => {
+    await getTasks(filters);
+  }, [getTasks, filters]);
+
   // Load tasks on component mount and when filters change
   useEffect(() => {
     loadTasks();
-  }, [filters]);
-
-  const loadTasks = async () => {
-    await getTasks(filters);
-  };
+  }, [loadTasks]);
 
   const handleCreateTask = () => {
     setEditingTask(null);
