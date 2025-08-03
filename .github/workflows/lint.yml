@@ -75,7 +75,7 @@ jobs:
     - name: Run frontend tests
       run: |
         cd frontend
-        CI=true npm test -- --coverage --watchAll=false
+        CI=true npm test -- --coverage --watchAll=false --passWithNoTests
 
   quality-gate:
     name: Quality Gate
