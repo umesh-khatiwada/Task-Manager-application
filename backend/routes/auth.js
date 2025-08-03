@@ -3,11 +3,11 @@ const {
   register,
   login,
   getMe,
-  logout
+  logout,
 } = require('../controllers/authController');
 const {
   registerValidation,
-  loginValidation
+  loginValidation,
 } = require('../middleware/validation');
 const auth = require('../middleware/auth');
 

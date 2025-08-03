@@ -3,9 +3,7 @@ module.exports = {
     node: true,
     es2021: true,
   },
-  extends: [
-    'eslint:recommended',
-  ],
+  extends: ['eslint:recommended'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -18,16 +16,12 @@ module.exports = {
     'object-shorthand': 'error',
     'prefer-template': 'error',
     'template-curly-spacing': ['error', 'never'],
-    'quotes': ['error', 'single', { avoidEscape: true }],
-    'semi': ['error', 'always'],
-    'indent': ['error', 2],
+    quotes: ['error', 'single', { avoidEscape: true }],
+    semi: ['error', 'always'],
+    indent: ['error', 2],
     'comma-dangle': ['error', 'always-multiline'],
     'eol-last': ['error', 'always'],
     'no-trailing-spaces': 'error',
   },
-  ignorePatterns: [
-    'node_modules/',
-    'dist/',
-    'build/',
-  ],
+  ignorePatterns: ['node_modules/', 'dist/', 'build/'],
 };

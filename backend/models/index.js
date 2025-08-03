@@ -5,15 +5,15 @@ const Task = require('./Task');
 User.hasMany(Task, {
   foreignKey: 'user_id',
   as: 'tasks',
-  onDelete: 'CASCADE'
+  onDelete: 'CASCADE',
 });
 
 Task.belongsTo(User, {
   foreignKey: 'user_id',
-  as: 'user'
+  as: 'user',
 });
 
 module.exports = {
   User,
-  Task
+  Task,
 };

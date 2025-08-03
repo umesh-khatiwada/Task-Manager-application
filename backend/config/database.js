@@ -14,16 +14,16 @@ const sequelize = new Sequelize(
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false // This is important for Render PostgreSQL
-      }
+        rejectUnauthorized: false, // This is important for Render PostgreSQL
+      },
     },
     pool: {
       max: 5,
       min: 0,
       acquire: 30000,
-      idle: 10000
-    }
-  }
+      idle: 10000,
+    },
+  },
 );
 
 // Test the connection
@@ -31,7 +31,7 @@ const connectDB = async () => {
   try {
     await sequelize.authenticate();
     console.log('✅ Database connected successfully');
-    
+
     // Sync models with database
     await sequelize.sync({ force: false });
     console.log('✅ Database synchronized');

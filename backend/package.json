@@ -12,7 +12,12 @@
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
-  "keywords": ["task-manager", "express", "jwt", "postgresql"],
+  "keywords": [
+    "task-manager",
+    "express",
+    "jwt",
+    "postgresql"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {

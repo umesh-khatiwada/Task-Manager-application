@@ -13,7 +13,7 @@ const register = async (req, res, next) => {
       return res.status(400).json({
         success: false,
         message: 'Validation failed',
-        errors: errors.array()
+        errors: errors.array(),
       });
     }
 
@@ -24,7 +24,7 @@ const register = async (req, res, next) => {
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: 'User already exists with this email'
+        message: 'User already exists with this email',
       });
     }
 
@@ -32,7 +32,7 @@ const register = async (req, res, next) => {
     const user = await User.create({
       name,
       email,
-      password
+      password,
     });
 
     sendTokenResponse(user, 201, res);
@@ -52,7 +52,7 @@ const login = async (req, res, next) => {
       return res.status(400).json({
         success: false,
         message: 'Validation failed',
-        errors: errors.array()
+        errors: errors.array(),
       });
     }
 
@@ -63,7 +63,7 @@ const login = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials'
+        message: 'Invalid credentials',
       });
     }
 
@@ -72,7 +72,7 @@ const login = async (req, res, next) => {
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials'
+        message: 'Invalid credentials',
       });
     }
 
@@ -89,7 +89,7 @@ const getMe = async (req, res, next) => {
   try {
     res.status(200).json({
       success: true,
-      user: req.user.toSafeObject()
+      user: req.user.toSafeObject(),
     });
   } catch (error) {
     next(error);
@@ -103,12 +103,12 @@ const logout = async (req, res, next) => {
   try {
     res.cookie('token', 'none', {
       expires: new Date(Date.now() + 10 * 1000),
-      httpOnly: true
+      httpOnly: true,
     });
 
     res.status(200).json({
       success: true,
-      message: 'User logged out successfully'
+      message: 'User logged out successfully',
     });
   } catch (error) {
     next(error);
@@ -119,5 +119,5 @@ module.exports = {
   register,
   login,
   getMe,
-  logout
+  logout,
 };

@@ -1,4 +1,4 @@
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, _next) => {
   let error = { ...err };
   error.message = err.message;
 
@@ -7,10 +7,10 @@ const errorHandler = (err, req, res, next) => {
 
   // Sequelize validation error
   if (err.name === 'SequelizeValidationError') {
-    const message = err.errors.map(error => error.message).join(', ');
+    const message = err.errors.map((error) => error.message).join(', ');
     error = {
       message,
-      statusCode: 400
+      statusCode: 400,
     };
   }
 
@@ -19,7 +19,7 @@ const errorHandler = (err, req, res, next) => {
     const message = 'Duplicate field value entered';
     error = {
       message,
-      statusCode: 400
+      statusCode: 400,
     };
   }
 
@@ -28,13 +28,13 @@ const errorHandler = (err, req, res, next) => {
     const message = 'Resource not found';
     error = {
       message,
-      statusCode: 404
+      statusCode: 404,
     };
   }
 
   res.status(error.statusCode || 500).json({
     success: false,
-    message: error.message || 'Server Error'
+    message: error.message || 'Server Error',
   });
 };
 

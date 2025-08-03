@@ -1,6 +1,5 @@
 const { validationResult } = require('express-validator');
 const { Task } = require('../models');
-const { Op } = require('sequelize');
 
 // @desc    Get all tasks for logged in user
 // @route   GET /api/tasks
@@ -13,16 +12,16 @@ const getTasks = async (req, res, next) => {
       sortBy = 'created_at',
       sortOrder = 'DESC',
       priority,
-      completed
+      completed,
     } = req.query;
 
     // Build where clause
     const where = { user_id: req.user.id };
-    
+
     if (priority) {
       where.priority = priority;
     }
-    
+
     if (completed !== undefined) {
       where.completed = completed === 'true';
     }
@@ -35,11 +34,11 @@ const getTasks = async (req, res, next) => {
       where,
       order: [[sortBy, sortOrder.toUpperCase()]],
       limit: parseInt(limit),
-      offset: parseInt(offset)
+      offset: parseInt(offset),
     });
 
     // Add overdue status to each task
-    const tasksWithStatus = tasks.map(task => {
+    const tasksWithStatus = tasks.map((task) => {
       const taskData = task.toJSON();
       taskData.isOverdue = task.isOverdue();
       return taskData;
@@ -51,7 +50,7 @@ const getTasks = async (req, res, next) => {
       total: count,
       totalPages: Math.ceil(count / limit),
       currentPage: parseInt(page),
-      tasks: tasksWithStatus
+      tasks: tasksWithStatus,
     });
   } catch (error) {
     next(error);
@@ -66,14 +65,14 @@ const getTask = async (req, res, next) => {
     const task = await Task.findOne({
       where: {
         id: req.params.id,
-        user_id: req.user.id
-      }
+        user_id: req.user.id,
+      },
     });
 
     if (!task) {
       return res.status(404).json({
         success: false,
-        message: 'Task not found'
+        message: 'Task not found',
       });
     }
 
@@ -82,7 +81,7 @@ const getTask = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      task: taskData
+      task: taskData,
     });
   } catch (error) {
     next(error);
@@ -100,7 +99,7 @@ const createTask = async (req, res, next) => {
       return res.status(400).json({
         success: false,
         message: 'Validation failed',
-        errors: errors.array()
+        errors: errors.array(),
       });
     }
 
@@ -111,7 +110,7 @@ const createTask = async (req, res, next) => {
       description,
       priority,
       end_date,
-      user_id: req.user.id
+      user_id: req.user.id,
     });
 
     const taskData = task.toJSON();
@@ -119,7 +118,7 @@ const createTask = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      task: taskData
+      task: taskData,
     });
   } catch (error) {
     next(error);
@@ -137,21 +136,21 @@ const updateTask = async (req, res, next) => {
       return res.status(400).json({
         success: false,
         message: 'Validation failed',
-        errors: errors.array()
+        errors: errors.array(),
       });
     }
 
     let task = await Task.findOne({
       where: {
         id: req.params.id,
-        user_id: req.user.id
-      }
+        user_id: req.user.id,
+      },
     });
 
     if (!task) {
       return res.status(404).json({
         success: false,
-        message: 'Task not found'
+        message: 'Task not found',
       });
     }
 
@@ -162,7 +161,7 @@ const updateTask = async (req, res, next) => {
       description: description !== undefined ? description : task.description,
       priority: priority || task.priority,
       end_date: end_date || task.end_date,
-      completed: completed !== undefined ? completed : task.completed
+      completed: completed !== undefined ? completed : task.completed,
     });
 
     const taskData = task.toJSON();
@@ -170,7 +169,7 @@ const updateTask = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      task: taskData
+      task: taskData,
     });
   } catch (error) {
     next(error);
@@ -185,14 +184,14 @@ const deleteTask = async (req, res, next) => {
     const task = await Task.findOne({
       where: {
         id: req.params.id,
-        user_id: req.user.id
-      }
+        user_id: req.user.id,
+      },
     });
 
     if (!task) {
       return res.status(404).json({
         success: false,
-        message: 'Task not found'
+        message: 'Task not found',
       });
     }
 
@@ -200,7 +199,7 @@ const deleteTask = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: 'Task deleted successfully'
+      message: 'Task deleted successfully',
     });
   } catch (error) {
     next(error);
@@ -212,5 +211,5 @@ module.exports = {
   getTask,
   createTask,
   updateTask,
-  deleteTask
+  deleteTask,
 };

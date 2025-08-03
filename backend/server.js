@@ -26,10 +26,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Enable CORS
-app.use(cors({
-  origin: '*',
-  credentials: false, // Set to false when using origin: '*'
-}));
+app.use(
+  cors({
+    origin: '*',
+    credentials: false, // Set to false when using origin: '*'
+  }),
+);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -59,7 +61,9 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5001;
 
 const server = app.listen(PORT, () => {
-  console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  console.log(
+    `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`,
+  );
 });
 
 // Handle unhandled promise rejections
