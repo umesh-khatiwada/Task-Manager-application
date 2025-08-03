@@ -42,3 +42,4 @@ const connectDB = async () => {
 };
 
 module.exports = { sequelize, connectDB };
+// Test comment for backend workflow trigger
