@@ -3,13 +3,22 @@ name: Code Quality & Tests
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/lint.yml'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/lint.yml'
 
 jobs:
   lint-and-test-backend:
     name: Backend - Lint & Test
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, 'backend/') || contains(github.event.head_commit.added, 'backend/') || github.event_name == 'pull_request'
     
     steps:
     - name: Checkout code
@@ -45,6 +54,7 @@ jobs:
   lint-and-test-frontend:
     name: Frontend - Lint & Test
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, 'frontend/') || contains(github.event.head_commit.added, 'frontend/') || github.event_name == 'pull_request'
     
     steps:
     - name: Checkout code
@@ -89,11 +99,16 @@ jobs:
         echo "Backend Status: ${{ needs.lint-and-test-backend.result }}"
         echo "Frontend Status: ${{ needs.lint-and-test-frontend.result }}"
         
+        # Check if any job failed
         if [[ "${{ needs.lint-and-test-backend.result }}" == "failure" || "${{ needs.lint-and-test-frontend.result }}" == "failure" ]]; then
-          echo " Quality checks failed!"
+          echo "❌ Quality checks failed!"
           echo "Please fix linting, formatting, or test issues before merging."
           exit 1
-        else
-          echo " All quality checks passed!"
+        # Check if at least one job ran successfully (not skipped)
+        elif [[ "${{ needs.lint-and-test-backend.result }}" == "success" || "${{ needs.lint-and-test-frontend.result }}" == "success" ]]; then
+          echo "✅ All quality checks passed!"
           echo "Code is ready for merge."
+        else
+          echo "ℹ️ No changes detected in backend or frontend folders."
+          echo "Quality gate passed - no relevant changes to check."
         fi
