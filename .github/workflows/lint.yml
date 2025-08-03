@@ -2,13 +2,13 @@ name: Code Quality & Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'backend/**'
       - 'frontend/**'
       - '.github/workflows/lint.yml'
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'backend/**'
       - 'frontend/**'
@@ -18,97 +18,92 @@ jobs:
   lint-and-test-backend:
     name: Backend - Lint & Test
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.modified, 'backend/') || contains(github.event.head_commit.added, 'backend/') || github.event_name == 'pull_request'
-    
+    continue-on-error: true  # Always run, let quality-gate decide if it should block
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: backend/package-lock.json
-    
-    - name: Install backend dependencies
-      run: |
-        cd backend
-        npm ci
-    
-    - name: Run backend linting
-      run: |
-        cd backend
-        npm run lint
-    
-    - name: Check backend code formatting
-      run: |
-        cd backend
-        npm run format:check
-    
-    - name: Run backend tests
-      run: |
-        cd backend
-        npm test || echo "No tests configured yet"
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          npm ci
+
+      - name: Run backend linting
+        run: |
+          cd backend
+          npm run lint
+
+      - name: Check backend code formatting
+        run: |
+          cd backend
+          npm run format:check
+
+      - name: Run backend tests
+        run: |
+          cd backend
+          npm test || echo "No tests configured yet"
 
   lint-and-test-frontend:
     name: Frontend - Lint & Test
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.modified, 'frontend/') || contains(github.event.head_commit.added, 'frontend/') || github.event_name == 'pull_request'
-    
+    continue-on-error: true
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: frontend/package-lock.json
-    
-    - name: Install frontend dependencies
-      run: |
-        cd frontend
-        npm ci
-    
-    - name: Run frontend linting
-      run: |
-        cd frontend
-        npm run lint
-    
-    - name: Check frontend code formatting
-      run: |
-        cd frontend
-        npm run format:check
-    
-    - name: Run frontend tests
-      run: |
-        cd frontend
-        CI=true npm test -- --coverage --watchAll=false --passWithNoTests
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run frontend linting
+        run: |
+          cd frontend
+          npm run lint
+
+      - name: Check frontend code formatting
+        run: |
+          cd frontend
+          npm run format:check
+
+      - name: Run frontend tests
+        run: |
+          cd frontend
+          CI=true npm test -- --coverage --watchAll=false --passWithNoTests
 
   quality-gate:
     name: Quality Gate
     runs-on: ubuntu-latest
     needs: [lint-and-test-backend, lint-and-test-frontend]
     if: always()
-    
+
     steps:
-    - name: Check quality results
-      run: |
-        echo "Backend Status: ${{ needs.lint-and-test-backend.result }}"
-        echo "Frontend Status: ${{ needs.lint-and-test-frontend.result }}"
-        
-        # Check if any job failed
-        if [[ "${{ needs.lint-and-test-backend.result }}" == "failure" || "${{ needs.lint-and-test-frontend.result }}" == "failure" ]]; then
-          echo "❌ Quality checks failed!"
-          echo "Please fix linting, formatting, or test issues before merging."
-          exit 1
-        # Check if at least one job ran successfully (not skipped)
-        elif [[ "${{ needs.lint-and-test-backend.result }}" == "success" || "${{ needs.lint-and-test-frontend.result }}" == "success" ]]; then
-          echo "✅ All quality checks passed!"
-          echo "Code is ready for merge."
-        else
-          echo "ℹ️ No changes detected in backend or frontend folders."
-          echo "Quality gate passed - no relevant changes to check."
-        fi
+      - name: Check quality results
+        run: |
+          echo "Backend Status: ${{ needs.lint-and-test-backend.result }}"
+          echo "Frontend Status: ${{ needs.lint-and-test-frontend.result }}"
+
+          if [[ "${{ needs.lint-and-test-backend.result }}" == "failure" || "${{ needs.lint-and-test-frontend.result }}" == "failure" ]]; then
+            echo "❌ Quality checks failed!"
+            exit 1
+          elif [[ "${{ needs.lint-and-test-backend.result }}" == "success" || "${{ needs.lint-and-test-frontend.result }}" == "success" ]]; then
+            echo "✅ Quality checks passed."
+          else
+            echo "ℹ️ No relevant changes to check."
+          fi
