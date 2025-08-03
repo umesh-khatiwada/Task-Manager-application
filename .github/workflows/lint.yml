@@ -90,10 +90,10 @@ jobs:
         echo "Frontend Status: ${{ needs.lint-and-test-frontend.result }}"
         
         if [[ "${{ needs.lint-and-test-backend.result }}" == "failure" || "${{ needs.lint-and-test-frontend.result }}" == "failure" ]]; then
-          echo "❌ Quality checks failed!"
+          echo " Quality checks failed!"
           echo "Please fix linting, formatting, or test issues before merging."
           exit 1
         else
-          echo "✅ All quality checks passed!"
+          echo " All quality checks passed!"
           echo "Code is ready for merge."
         fi
