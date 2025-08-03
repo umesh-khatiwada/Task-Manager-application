@@ -68,7 +68,10 @@ const taskReducer = (state, action) => {
         tasks: state.tasks.map((task) =>
           task.id === action.payload.id ? action.payload : task
         ),
-        currentTask: state.currentTask?.id === action.payload.id ? action.payload : state.currentTask,
+        currentTask:
+          state.currentTask?.id === action.payload.id
+            ? action.payload
+            : state.currentTask,
         loading: false,
         error: null,
       };
@@ -77,7 +80,8 @@ const taskReducer = (state, action) => {
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.payload),
-        currentTask: state.currentTask?.id === action.payload ? null : state.currentTask,
+        currentTask:
+          state.currentTask?.id === action.payload ? null : state.currentTask,
         loading: false,
         error: null,
       };

@@ -7,10 +7,10 @@ const PrivateRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
-    return <Loading message="Checking authentication..." />;
+    return <Loading message='Checking authentication...' />;
   }
 
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  return isAuthenticated ? children : <Navigate to='/login' replace />;
 };
 
 export default PrivateRoute;

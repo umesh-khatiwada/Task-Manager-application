@@ -67,10 +67,11 @@ export const validateEmail = (email) => {
 
 export const validatePassword = (password) => {
   // At least one lowercase, one uppercase, one digit, min 6 characters
-  const re = /[a-z]/.test(password) &&
-             /[A-Z]/.test(password) &&
-             /\d/.test(password) &&
-             password.length >= 6;
+  const re =
+    /[a-z]/.test(password) &&
+    /[A-Z]/.test(password) &&
+    /\d/.test(password) &&
+    password.length >= 6;
   return re;
 };
 

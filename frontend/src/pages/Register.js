@@ -22,15 +22,15 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: '',
       }));
     }
   };
@@ -53,7 +53,8 @@ const Register = () => {
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (!validatePassword(formData.password)) {
-      newErrors.password = 'Password must be at least 6 characters with uppercase, lowercase, and number';
+      newErrors.password =
+        'Password must be at least 6 characters with uppercase, lowercase, and number';
     }
 
     if (!formData.confirmPassword) {
@@ -68,7 +69,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -81,86 +82,90 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h1 className="auth-title">Create Account</h1>
+    <div className='auth-container'>
+      <div className='auth-card'>
+        <h1 className='auth-title'>Create Account</h1>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name" className="form-label">
+          <div className='form-group'>
+            <label htmlFor='name' className='form-label'>
               Full Name
             </label>
             <input
-              type="text"
-              id="name"
-              name="name"
+              type='text'
+              id='name'
+              name='name'
               value={formData.name}
               onChange={handleChange}
-              className="form-input"
-              placeholder="Enter your full name"
+              className='form-input'
+              placeholder='Enter your full name'
             />
-            {errors.name && <div className="form-error">{errors.name}</div>}
+            {errors.name && <div className='form-error'>{errors.name}</div>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="email" className="form-label">
+          <div className='form-group'>
+            <label htmlFor='email' className='form-label'>
               Email Address
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
+              type='email'
+              id='email'
+              name='email'
               value={formData.email}
               onChange={handleChange}
-              className="form-input"
-              placeholder="Enter your email"
+              className='form-input'
+              placeholder='Enter your email'
             />
-            {errors.email && <div className="form-error">{errors.email}</div>}
+            {errors.email && <div className='form-error'>{errors.email}</div>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password" className="form-label">
+          <div className='form-group'>
+            <label htmlFor='password' className='form-label'>
               Password
             </label>
             <input
-              type="password"
-              id="password"
-              name="password"
+              type='password'
+              id='password'
+              name='password'
               value={formData.password}
               onChange={handleChange}
-              className="form-input"
-              placeholder="Enter your password"
+              className='form-input'
+              placeholder='Enter your password'
             />
-            {errors.password && <div className="form-error">{errors.password}</div>}
+            {errors.password && (
+              <div className='form-error'>{errors.password}</div>
+            )}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="confirmPassword" className="form-label">
+          <div className='form-group'>
+            <label htmlFor='confirmPassword' className='form-label'>
               Confirm Password
             </label>
             <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
+              type='password'
+              id='confirmPassword'
+              name='confirmPassword'
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="form-input"
-              placeholder="Confirm your password"
+              className='form-input'
+              placeholder='Confirm your password'
             />
-            {errors.confirmPassword && <div className="form-error">{errors.confirmPassword}</div>}
+            {errors.confirmPassword && (
+              <div className='form-error'>{errors.confirmPassword}</div>
+            )}
           </div>
 
           <button
-            type="submit"
+            type='submit'
             disabled={loading}
-            className="btn btn-primary btn-lg"
+            className='btn btn-primary btn-lg'
             style={{ width: '100%', marginTop: '1rem' }}
           >
             {loading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 
-        <div className="auth-link">
-          Already have an account? <Link to="/login">Sign in here</Link>
+        <div className='auth-link'>
+          Already have an account? <Link to='/login'>Sign in here</Link>
         </div>
       </div>
     </div>

@@ -11,20 +11,20 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
-      <div className="container">
-        <div className="header-content">
-          <Link to={isAuthenticated ? "/dashboard" : "/"} className="logo">
+    <header className='header'>
+      <div className='container'>
+        <div className='header-content'>
+          <Link to={isAuthenticated ? '/dashboard' : '/'} className='logo'>
             TaskManager
           </Link>
-          
+
           {isAuthenticated && (
-            <nav className="nav">
-              <div className="user-info">
+            <nav className='nav'>
+              <div className='user-info'>
                 <FiUser />
                 <span>Welcome, {user?.name}</span>
               </div>
-              <button onClick={handleLogout} className="btn btn-outline btn-sm">
+              <button onClick={handleLogout} className='btn btn-outline btn-sm'>
                 <FiLogOut />
                 Logout
               </button>

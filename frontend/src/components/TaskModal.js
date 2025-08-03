@@ -36,15 +36,15 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
     }));
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: '',
       }));
     }
   };
@@ -68,7 +68,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
       const selectedDate = new Date(formData.end_date);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      
+
       if (selectedDate < today && !task) {
         // Only check future date for new tasks
         newErrors.end_date = 'End date must be in the future';
@@ -81,7 +81,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -98,94 +98,111 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2 className="modal-title">
+    <div className='modal-overlay' onClick={onClose}>
+      <div className='modal' onClick={(e) => e.stopPropagation()}>
+        <div className='modal-header'>
+          <h2 className='modal-title'>
             {task ? 'Edit Task' : 'Create New Task'}
           </h2>
-          <button onClick={onClose} className="modal-close">
+          <button onClick={onClose} className='modal-close'>
             <FiX />
           </button>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="modal-body">
-            <div className="form-group">
-              <label htmlFor="title" className="form-label">
+          <div className='modal-body'>
+            <div className='form-group'>
+              <label htmlFor='title' className='form-label'>
                 Title *
               </label>
               <input
-                type="text"
-                id="title"
-                name="title"
+                type='text'
+                id='title'
+                name='title'
                 value={formData.title}
                 onChange={handleChange}
-                className="form-input"
-                placeholder="Enter task title"
+                className='form-input'
+                placeholder='Enter task title'
                 maxLength={200}
               />
-              {errors.title && <div className="form-error">{errors.title}</div>}
+              {errors.title && <div className='form-error'>{errors.title}</div>}
             </div>
 
-            <div className="form-group">
-              <label htmlFor="description" className="form-label">
+            <div className='form-group'>
+              <label htmlFor='description' className='form-label'>
                 Description
               </label>
               <textarea
-                id="description"
-                name="description"
+                id='description'
+                name='description'
                 value={formData.description}
                 onChange={handleChange}
-                className="form-textarea"
-                placeholder="Enter task description (optional)"
+                className='form-textarea'
+                placeholder='Enter task description (optional)'
                 rows={4}
                 maxLength={1000}
               />
-              {errors.description && <div className="form-error">{errors.description}</div>}
-              <div style={{ fontSize: '0.75rem', color: '#6b7280', textAlign: 'right' }}>
+              {errors.description && (
+                <div className='form-error'>{errors.description}</div>
+              )}
+              <div
+                style={{
+                  fontSize: '0.75rem',
+                  color: '#6b7280',
+                  textAlign: 'right',
+                }}
+              >
                 {formData.description.length}/1000
               </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="priority" className="form-label">
+            <div className='form-group'>
+              <label htmlFor='priority' className='form-label'>
                 Priority
               </label>
               <select
-                id="priority"
-                name="priority"
+                id='priority'
+                name='priority'
                 value={formData.priority}
                 onChange={handleChange}
-                className="form-select"
+                className='form-select'
               >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
+                <option value='low'>Low</option>
+                <option value='medium'>Medium</option>
+                <option value='high'>High</option>
               </select>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="end_date" className="form-label">
+            <div className='form-group'>
+              <label htmlFor='end_date' className='form-label'>
                 End Date *
               </label>
               <input
-                type="date"
-                id="end_date"
-                name="end_date"
+                type='date'
+                id='end_date'
+                name='end_date'
                 value={formData.end_date}
                 onChange={handleChange}
-                className="form-input"
+                className='form-input'
               />
-              {errors.end_date && <div className="form-error">{errors.end_date}</div>}
+              {errors.end_date && (
+                <div className='form-error'>{errors.end_date}</div>
+              )}
             </div>
 
             {task && (
-              <div className="form-group">
-                <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div className='form-group'>
+                <label
+                  className='form-label'
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                  }}
+                >
                   <input
-                    type="checkbox"
-                    name="completed"
+                    type='checkbox'
+                    name='completed'
                     checked={formData.completed}
                     onChange={handleChange}
                   />
@@ -195,18 +212,18 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
             )}
           </div>
 
-          <div className="modal-footer">
+          <div className='modal-footer'>
             <button
-              type="button"
+              type='button'
               onClick={onClose}
-              className="btn btn-outline"
+              className='btn btn-outline'
               disabled={loading}
             >
               Cancel
             </button>
             <button
-              type="submit"
-              className="btn btn-primary"
+              type='submit'
+              className='btn btn-primary'
               disabled={loading}
             >
               {loading ? 'Saving...' : task ? 'Update Task' : 'Create Task'}

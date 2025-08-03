@@ -55,7 +55,7 @@ const Dashboard = () => {
       if (result.success) {
         // Reload current page or go to previous page if current page is empty
         if (tasks.length === 1 && currentPage > 1) {
-          setFilters(prev => ({ ...prev, page: currentPage - 1 }));
+          setFilters((prev) => ({ ...prev, page: currentPage - 1 }));
         } else {
           loadTasks();
         }
@@ -84,7 +84,7 @@ const Dashboard = () => {
   };
 
   const handleFilterChange = (name, value) => {
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
       [name]: value,
       page: 1, // Reset to first page when filters change
@@ -92,7 +92,7 @@ const Dashboard = () => {
   };
 
   const handlePageChange = (newPage) => {
-    setFilters(prev => ({ ...prev, page: newPage }));
+    setFilters((prev) => ({ ...prev, page: newPage }));
   };
 
   const handleRefresh = () => {
@@ -100,68 +100,74 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="main-content">
-      <div className="container">
-        <div className="dashboard-header">
-          <h1 className="dashboard-title">My Tasks</h1>
-          <button onClick={handleCreateTask} className="btn btn-primary">
+    <div className='main-content'>
+      <div className='container'>
+        <div className='dashboard-header'>
+          <h1 className='dashboard-title'>My Tasks</h1>
+          <button onClick={handleCreateTask} className='btn btn-primary'>
             <FiPlus />
             Add New Task
           </button>
         </div>
 
         {/* Controls */}
-        <div className="task-controls">
-          <div className="task-filters">
+        <div className='task-controls'>
+          <div className='task-filters'>
             <select
               value={filters.priority}
               onChange={(e) => handleFilterChange('priority', e.target.value)}
-              className="form-select"
+              className='form-select'
               style={{ minWidth: '120px' }}
             >
-              <option value="">All Priorities</option>
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
+              <option value=''>All Priorities</option>
+              <option value='high'>High</option>
+              <option value='medium'>Medium</option>
+              <option value='low'>Low</option>
             </select>
 
             <select
               value={filters.completed}
               onChange={(e) => handleFilterChange('completed', e.target.value)}
-              className="form-select"
+              className='form-select'
               style={{ minWidth: '120px' }}
             >
-              <option value="">All Tasks</option>
-              <option value="false">Pending</option>
-              <option value="true">Completed</option>
+              <option value=''>All Tasks</option>
+              <option value='false'>Pending</option>
+              <option value='true'>Completed</option>
             </select>
 
-            <div className="task-sort">
+            <div className='task-sort'>
               <select
                 value={filters.sortBy}
                 onChange={(e) => handleFilterChange('sortBy', e.target.value)}
-                className="form-select"
+                className='form-select'
                 style={{ minWidth: '120px' }}
               >
-                <option value="created_at">Created Date</option>
-                <option value="end_date">Due Date</option>
-                <option value="priority">Priority</option>
-                <option value="title">Title</option>
+                <option value='created_at'>Created Date</option>
+                <option value='end_date'>Due Date</option>
+                <option value='priority'>Priority</option>
+                <option value='title'>Title</option>
               </select>
 
               <select
                 value={filters.sortOrder}
-                onChange={(e) => handleFilterChange('sortOrder', e.target.value)}
-                className="form-select"
+                onChange={(e) =>
+                  handleFilterChange('sortOrder', e.target.value)
+                }
+                className='form-select'
                 style={{ minWidth: '100px' }}
               >
-                <option value="DESC">Descending</option>
-                <option value="ASC">Ascending</option>
+                <option value='DESC'>Descending</option>
+                <option value='ASC'>Ascending</option>
               </select>
             </div>
           </div>
 
-          <button onClick={handleRefresh} className="btn btn-outline" disabled={loading}>
+          <button
+            onClick={handleRefresh}
+            className='btn btn-outline'
+            disabled={loading}
+          >
             <FiRefreshCw />
             Refresh
           </button>
@@ -169,26 +175,32 @@ const Dashboard = () => {
 
         {/* Task List */}
         {loading ? (
-          <Loading message="Loading tasks..." />
+          <Loading message='Loading tasks...' />
         ) : tasks.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-state-icon">📝</div>
+          <div className='empty-state'>
+            <div className='empty-state-icon'>📝</div>
             <h3>No tasks found</h3>
             <p>
-              {Object.values(filters).some(v => v && v !== 'created_at' && v !== 'DESC' && v !== 1 && v !== 10)
+              {Object.values(filters).some(
+                (v) =>
+                  v && v !== 'created_at' && v !== 'DESC' && v !== 1 && v !== 10
+              )
                 ? 'No tasks match your current filters. Try adjusting your filters or create a new task.'
-                : "You don't have any tasks yet. Create your first task to get started!"
-              }
+                : "You don't have any tasks yet. Create your first task to get started!"}
             </p>
-            <button onClick={handleCreateTask} className="btn btn-primary" style={{ marginTop: '1rem' }}>
+            <button
+              onClick={handleCreateTask}
+              className='btn btn-primary'
+              style={{ marginTop: '1rem' }}
+            >
               <FiPlus />
               Create Your First Task
             </button>
           </div>
         ) : (
           <>
-            <div className="task-list">
-              {tasks.map(task => (
+            <div className='task-list'>
+              {tasks.map((task) => (
                 <TaskCard
                   key={task.id}
                   task={task}
@@ -201,23 +213,23 @@ const Dashboard = () => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="pagination">
+              <div className='pagination'>
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="btn btn-outline"
+                  className='btn btn-outline'
                 >
                   Previous
                 </button>
 
-                <div className="pagination-info">
+                <div className='pagination-info'>
                   Page {currentPage} of {totalPages} ({total} total tasks)
                 </div>
 
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className="btn btn-outline"
+                  className='btn btn-outline'
                 >
                   Next
                 </button>

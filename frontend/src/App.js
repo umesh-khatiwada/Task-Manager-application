@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,25 +21,25 @@ function App() {
     <AuthProvider>
       <TaskProvider>
         <Router>
-          <div className="app">
+          <div className='app'>
             <Header />
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route 
-                path="/dashboard" 
+              <Route path='/login' element={<Login />} />
+              <Route path='/register' element={<Register />} />
+              <Route
+                path='/dashboard'
                 element={
                   <PrivateRoute>
                     <Dashboard />
                   </PrivateRoute>
-                } 
+                }
               />
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+              <Route path='/' element={<Navigate to='/dashboard' replace />} />
+              <Route path='*' element={<Navigate to='/dashboard' replace />} />
             </Routes>
-            
+
             <ToastContainer
-              position="top-right"
+              position='top-right'
               autoClose={5001}
               hideProgressBar={false}
               newestOnTop={false}
@@ -43,7 +48,7 @@ function App() {
               pauseOnFocusLoss
               draggable
               pauseOnHover
-              theme="light"
+              theme='light'
             />
           </div>
         </Router>
