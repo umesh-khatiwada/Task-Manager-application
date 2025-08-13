@@ -100,10 +100,10 @@ jobs:
           echo "Frontend Status: ${{ needs.lint-and-test-frontend.result }}"
 
           if [[ "${{ needs.lint-and-test-backend.result }}" == "failure" || "${{ needs.lint-and-test-frontend.result }}" == "failure" ]]; then
-            echo "❌ Quality checks failed!"
+            echo "Quality checks failed!"
             exit 1
           elif [[ "${{ needs.lint-and-test-backend.result }}" == "success" || "${{ needs.lint-and-test-frontend.result }}" == "success" ]]; then
-            echo "✅ Quality checks passed."
+            echo "Quality checks passed."
           else
-            echo "ℹ️ No relevant changes to check."
+            echo "No relevant changes to check."
           fi

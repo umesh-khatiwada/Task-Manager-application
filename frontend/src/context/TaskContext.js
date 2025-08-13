@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { taskAPI } from '../services/api';
 import { toast } from 'react-toastify';
-
-// Initial state
 const initialState = {
   tasks: [],
   currentTask: null,
@@ -13,7 +11,6 @@ const initialState = {
   total: 0,
 };
 
-// Action types
 const TASK_ACTIONS = {
   SET_LOADING: 'SET_LOADING',
   GET_TASKS_SUCCESS: 'GET_TASKS_SUCCESS',
@@ -112,12 +109,9 @@ const taskReducer = (state, action) => {
 
 // Create context
 const TaskContext = createContext();
-
-// Task provider component
 export const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
-  // Get tasks
   const getTasks = async (params = {}) => {
     dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
     try {
@@ -138,7 +132,6 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
-  // Get single task
   const getTask = async (id) => {
     dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
     try {
@@ -159,7 +152,6 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
-  // Create task
   const createTask = async (taskData) => {
     dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
     try {
@@ -181,7 +173,6 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
-  // Update task
   const updateTask = async (id, taskData) => {
     dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
     try {
@@ -203,7 +194,6 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
-  // Delete task
   const deleteTask = async (id) => {
     dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
     try {
@@ -225,12 +215,10 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
-  // Clear error
   const clearError = () => {
     dispatch({ type: TASK_ACTIONS.CLEAR_ERROR });
   };
 
-  // Clear current task
   const clearCurrentTask = () => {
     dispatch({ type: TASK_ACTIONS.CLEAR_CURRENT_TASK });
   };
@@ -248,8 +236,6 @@ export const TaskProvider = ({ children }) => {
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
 };
-
-// Custom hook to use task context
 export const useTask = () => {
   const context = useContext(TaskContext);
   if (!context) {

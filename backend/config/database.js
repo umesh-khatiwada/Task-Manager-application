@@ -14,7 +14,7 @@ const sequelize = new Sequelize(
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false, // This is important for Render PostgreSQL
+        rejectUnauthorized: false,
       },
     },
     pool: {
@@ -30,16 +30,13 @@ const sequelize = new Sequelize(
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log('✅ Database connected successfully');
-
-    // Sync models with database
+    console.log('Database connected successfully');
     await sequelize.sync({ force: false });
-    console.log('✅ Database synchronized');
+    console.log('Database synchronized');
   } catch (error) {
-    console.error('❌ Unable to connect to the database:', error);
+    console.error('Unable to connect to the database:', error);
     process.exit(1);
   }
 };
 
 module.exports = { sequelize, connectDB };
-// Test comment for backend workflow trigger

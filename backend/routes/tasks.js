@@ -16,7 +16,6 @@ const router = express.Router();
 
 // All routes are protected
 router.use(auth);
-
 router.route('/').get(getTasks).post(taskValidation, createTask);
 
 router

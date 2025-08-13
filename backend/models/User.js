@@ -52,7 +52,6 @@ const User = sequelize.define(
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     hooks: {
-      // Hash password before saving
       beforeCreate: async (user) => {
         if (user.password) {
           const salt = await bcrypt.genSalt(12);
@@ -69,12 +68,10 @@ const User = sequelize.define(
   },
 );
 
-// Instance method to compare passwords
 User.prototype.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Instance method to get user without password
 User.prototype.toSafeObject = function () {
   const user = this.toJSON();
   delete user.password;

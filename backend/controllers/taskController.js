@@ -25,19 +25,13 @@ const getTasks = async (req, res, next) => {
     if (completed !== undefined) {
       where.completed = completed === 'true';
     }
-
-    // Calculate offset
     const offset = (page - 1) * limit;
-
-    // Get tasks with pagination
     const { count, rows: tasks } = await Task.findAndCountAll({
       where,
       order: [[sortBy, sortOrder.toUpperCase()]],
       limit: parseInt(limit),
       offset: parseInt(offset),
     });
-
-    // Add overdue status to each task
     const tasksWithStatus = tasks.map((task) => {
       const taskData = task.toJSON();
       taskData.isOverdue = task.isOverdue();
@@ -93,7 +87,6 @@ const getTask = async (req, res, next) => {
 // @access  Private
 const createTask = async (req, res, next) => {
   try {
-    // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -130,7 +123,6 @@ const createTask = async (req, res, next) => {
 // @access  Private
 const updateTask = async (req, res, next) => {
   try {
-    // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({

@@ -13,16 +13,14 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
 
   useEffect(() => {
     if (task) {
-      // Edit mode - populate form with task data
       setFormData({
         title: task.title,
         description: task.description || '',
         priority: task.priority,
-        end_date: task.end_date.split('T')[0], // Format date for input
+        end_date: task.end_date.split('T')[0],
         completed: task.completed,
       });
     } else {
-      // Create mode - reset form
       setFormData({
         title: '',
         description: '',
@@ -40,7 +38,6 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -70,7 +67,6 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
       today.setHours(0, 0, 0, 0);
 
       if (selectedDate < today && !task) {
-        // Only check future date for new tasks
         newErrors.end_date = 'End date must be in the future';
       }
     }
@@ -85,8 +81,6 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
     if (!validateForm()) {
       return;
     }
-
-    // Convert end_date to ISO string
     const submitData = {
       ...formData,
       end_date: new Date(formData.end_date).toISOString(),

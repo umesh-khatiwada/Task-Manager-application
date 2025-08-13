@@ -4,8 +4,6 @@ const { User } = require('../models');
 const auth = async (req, res, next) => {
   try {
     let token;
-
-    // Get token from header or cookie
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith('Bearer')
@@ -14,8 +12,6 @@ const auth = async (req, res, next) => {
     } else if (req.cookies.token) {
       token = req.cookies.token;
     }
-
-    // Make sure token exists
     if (!token) {
       return res.status(401).json({
         success: false,
@@ -24,10 +20,7 @@ const auth = async (req, res, next) => {
     }
 
     try {
-      // Verify token
       const decoded = verifyToken(token);
-
-      // Get user from database
       const user = await User.findByPk(decoded.id);
 
       if (!user) {

@@ -66,7 +66,6 @@ export const validateEmail = (email) => {
 };
 
 export const validatePassword = (password) => {
-  // At least one lowercase, one uppercase, one digit, min 6 characters
   const re =
     /[a-z]/.test(password) &&
     /[A-Z]/.test(password) &&
@@ -75,7 +74,6 @@ export const validatePassword = (password) => {
   return re;
 };
 
-// Local storage helpers
 export const getFromStorage = (key) => {
   try {
     const item = localStorage.getItem(key);

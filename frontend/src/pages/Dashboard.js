@@ -53,7 +53,6 @@ const Dashboard = () => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       const result = await deleteTask(taskId);
       if (result.success) {
-        // Reload current page or go to previous page if current page is empty
         if (tasks.length === 1 && currentPage > 1) {
           setFilters((prev) => ({ ...prev, page: currentPage - 1 }));
         } else {
@@ -78,7 +77,6 @@ const Dashboard = () => {
     if (result.success) {
       setIsModalOpen(false);
       setEditingTask(null);
-      // Reload tasks to get updated data
       loadTasks();
     }
   };
@@ -87,7 +85,7 @@ const Dashboard = () => {
     setFilters((prev) => ({
       ...prev,
       [name]: value,
-      page: 1, // Reset to first page when filters change
+      page: 1,
     }));
   };
 
@@ -237,8 +235,6 @@ const Dashboard = () => {
             )}
           </>
         )}
-
-        {/* Task Modal */}
         <TaskModal
           isOpen={isModalOpen}
           onClose={() => {
