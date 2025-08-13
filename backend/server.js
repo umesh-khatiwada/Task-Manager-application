@@ -32,8 +32,6 @@ app.use(
     credentials: false, // Set to false when using origin: '*'
   }),
 );
-
-// Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'healthy',
@@ -43,11 +41,9 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Routes
 app.use('/api', authRoutes);
 app.use('/api/tasks', taskRoutes);
 
-// Handle undefined routes
 app.all('*', (req, res) => {
   res.status(404).json({
     success: false,
@@ -55,11 +51,8 @@ app.all('*', (req, res) => {
   });
 });
 
-// Error handler middleware (must be last)
 app.use(errorHandler);
-
 const PORT = process.env.PORT || 5001;
-
 const server = app.listen(PORT, () => {
   console.log(
     `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`,

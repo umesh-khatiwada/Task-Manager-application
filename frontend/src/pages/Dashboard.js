@@ -20,24 +20,46 @@ const Dashboard = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
-  const [filters, setFilters] = useState({
-    page: 1,
-    limit: 10,
-    sortBy: 'created_at',
-    sortOrder: 'DESC',
-    priority: '',
-    completed: '',
-  });
-
-  // Load tasks function with useCallback to prevent unnecessary re-renders
-  const loadTasks = useCallback(async () => {
-    await getTasks(filters);
-  }, [getTasks, filters]);
-
-  // Load tasks on component mount and when filters change
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [sortBy, setSortBy] = useState('created_at');
+  const [sortOrder, setSortOrder] = useState('DESC');
+  const [priority, setPriority] = useState('');
+  const [completed, setCompleted] = useState('');
   useEffect(() => {
+    const loadTasks = async () => {
+      try {
+        const filters = {
+          page,
+          limit,
+          sortBy,
+          sortOrder,
+          priority,
+          completed,
+        };
+        await getTasks(filters);
+      } catch (error) {
+        console.error('Error loading tasks:', error);
+      }
+    };
+    
     loadTasks();
-  }, [loadTasks]);
+  }, [getTasks, page, limit, sortBy, sortOrder, priority, completed]);
+  const loadTasks = useCallback(async () => {
+    try {
+      const filters = {
+        page,
+        limit,
+        sortBy,
+        sortOrder,
+        priority,
+        completed,
+      };
+      await getTasks(filters);
+    } catch (error) {
+      console.error('Error loading tasks:', error);
+    }
+  }, [getTasks, page, limit, sortBy, sortOrder, priority, completed]);
 
   const handleCreateTask = () => {
     setEditingTask(null);
@@ -54,7 +76,7 @@ const Dashboard = () => {
       const result = await deleteTask(taskId);
       if (result.success) {
         if (tasks.length === 1 && currentPage > 1) {
-          setFilters((prev) => ({ ...prev, page: currentPage - 1 }));
+          setPage(currentPage - 1);
         } else {
           loadTasks();
         }
@@ -82,15 +104,20 @@ const Dashboard = () => {
   };
 
   const handleFilterChange = (name, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-      page: 1,
-    }));
+    if (name === 'priority') {
+      setPriority(value);
+    } else if (name === 'completed') {
+      setCompleted(value);
+    } else if (name === 'sortBy') {
+      setSortBy(value);
+    } else if (name === 'sortOrder') {
+      setSortOrder(value);
+    }
+    setPage(1);
   };
 
   const handlePageChange = (newPage) => {
-    setFilters((prev) => ({ ...prev, page: newPage }));
+    setPage(newPage);
   };
 
   const handleRefresh = () => {
@@ -107,12 +134,10 @@ const Dashboard = () => {
             Add New Task
           </button>
         </div>
-
-        {/* Controls */}
         <div className='task-controls'>
           <div className='task-filters'>
             <select
-              value={filters.priority}
+              value={priority}
               onChange={(e) => handleFilterChange('priority', e.target.value)}
               className='form-select'
               style={{ minWidth: '120px' }}
@@ -124,7 +149,7 @@ const Dashboard = () => {
             </select>
 
             <select
-              value={filters.completed}
+              value={completed}
               onChange={(e) => handleFilterChange('completed', e.target.value)}
               className='form-select'
               style={{ minWidth: '120px' }}
@@ -136,7 +161,7 @@ const Dashboard = () => {
 
             <div className='task-sort'>
               <select
-                value={filters.sortBy}
+                value={sortBy}
                 onChange={(e) => handleFilterChange('sortBy', e.target.value)}
                 className='form-select'
                 style={{ minWidth: '120px' }}
@@ -148,7 +173,7 @@ const Dashboard = () => {
               </select>
 
               <select
-                value={filters.sortOrder}
+                value={sortOrder}
                 onChange={(e) =>
                   handleFilterChange('sortOrder', e.target.value)
                 }
@@ -171,7 +196,6 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {/* Task List */}
         {loading ? (
           <Loading message='Loading tasks...' />
         ) : tasks.length === 0 ? (
@@ -179,10 +203,7 @@ const Dashboard = () => {
             <div className='empty-state-icon'>📝</div>
             <h3>No tasks found</h3>
             <p>
-              {Object.values(filters).some(
-                (v) =>
-                  v && v !== 'created_at' && v !== 'DESC' && v !== 1 && v !== 10
-              )
+              {priority || completed || (sortBy !== 'created_at') || (sortOrder !== 'DESC')
                 ? 'No tasks match your current filters. Try adjusting your filters or create a new task.'
                 : "You don't have any tasks yet. Create your first task to get started!"}
             </p>
@@ -208,8 +229,6 @@ const Dashboard = () => {
                 />
               ))}
             </div>
-
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className='pagination'>
                 <button

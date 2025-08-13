@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useCallback } from 'react';
 import { taskAPI } from '../services/api';
 import { toast } from 'react-toastify';
 const initialState = {
@@ -112,7 +112,7 @@ const TaskContext = createContext();
 export const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
-  const getTasks = async (params = {}) => {
+  const getTasks = useCallback(async (params = {}) => {
     dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
     try {
       const response = await taskAPI.getTasks(params);
@@ -130,9 +130,9 @@ export const TaskProvider = ({ children }) => {
       toast.error(message);
       return { success: false, message };
     }
-  };
+  }, []);
 
-  const getTask = async (id) => {
+  const getTask = useCallback(async (id) => {
     dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
     try {
       const response = await taskAPI.getTask(id);
@@ -150,9 +150,9 @@ export const TaskProvider = ({ children }) => {
       toast.error(message);
       return { success: false, message };
     }
-  };
+  }, []);
 
-  const createTask = async (taskData) => {
+  const createTask = useCallback(async (taskData) => {
     dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
     try {
       const response = await taskAPI.createTask(taskData);
@@ -171,9 +171,9 @@ export const TaskProvider = ({ children }) => {
       toast.error(message);
       return { success: false, message };
     }
-  };
+  }, []);
 
-  const updateTask = async (id, taskData) => {
+  const updateTask = useCallback(async (id, taskData) => {
     dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
     try {
       const response = await taskAPI.updateTask(id, taskData);
@@ -192,9 +192,9 @@ export const TaskProvider = ({ children }) => {
       toast.error(message);
       return { success: false, message };
     }
-  };
+  }, []);
 
-  const deleteTask = async (id) => {
+  const deleteTask = useCallback(async (id) => {
     dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
     try {
       await taskAPI.deleteTask(id);
@@ -213,15 +213,15 @@ export const TaskProvider = ({ children }) => {
       toast.error(message);
       return { success: false, message };
     }
-  };
+  }, []);
 
-  const clearError = () => {
+  const clearError = useCallback(() => {
     dispatch({ type: TASK_ACTIONS.CLEAR_ERROR });
-  };
+  }, []);
 
-  const clearCurrentTask = () => {
+  const clearCurrentTask = useCallback(() => {
     dispatch({ type: TASK_ACTIONS.CLEAR_CURRENT_TASK });
-  };
+  }, []);
 
   const value = {
     ...state,

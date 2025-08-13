@@ -102,7 +102,7 @@ cd frontend
 npm install
 
 # Optional: Create environment file for custom API URL
-echo "REACT_APP_API_URL=http://localhost:5001/api" > .env
+echo "REACT_APP_API_URL=http://localhost:8000/api" > .env
 ```
 
 ## 🚀 Running the Application
