@@ -1,6 +1,6 @@
-# Task Manager - Full Stack MERN Application
+# Task Manager - Full Stack PERN Application
 
-A secure, full-stack Task Manager application built with the MERN stack (MongoDB/PostgreSQL, Express.js, React, Node.js) featuring user authentication, task management, and a responsive UI.
+A secure, full-stack Task Manager application built with PostgreSQL, Express.js, React and Node.js (the PERN stack; the data layer uses PostgreSQL via Sequelize, not MongoDB) featuring user authentication, task management, and a responsive UI.
 
 ## 🚀 Features
 
@@ -8,7 +8,7 @@ A secure, full-stack Task Manager application built with the MERN stack (MongoDB
 - User registration and login with JWT-based authentication
 - Secure password hashing using bcrypt
 - Protected routes with authentication middleware
-- Automatic token refresh and logout handling
+- Logout handling (token is cleared client-side and the auth cookie is cleared by the server)
 
 ### Task Management
 - ✅ Create tasks with title, description, priority, and due date
@@ -102,8 +102,28 @@ cd frontend
 npm install
 
 # Optional: Create environment file for custom API URL
-echo "REACT_APP_API_URL=http://localhost:8000/api" > .env
+# The frontend defaults to http://localhost:8000/api; the backend dev default port is 5001,
+# so point the frontend at it (or set PORT=8000 in backend/.env)
+echo "REACT_APP_API_URL=http://localhost:5001/api" > .env
 ```
+
+## ⚙️ Configuration
+
+Backend environment variables (copy `backend/.env.example` to `backend/.env`; never commit real values):
+
+| Variable | Description | Example / default |
+|----------|-------------|-------------------|
+| `NODE_ENV` | Runtime mode | `development` |
+| `PORT` | API port | `5001` (code default) |
+| `JWT_SECRET` | Secret used to sign JWTs | set your own long random value |
+| `JWT_EXPIRE` | Token lifetime | `7d` |
+| `DB_HOST` / `DB_PORT` | PostgreSQL host and port | `localhost` / `5432` |
+| `DB_NAME` | Database name | `task_manager` |
+| `DB_USER` / `DB_PASSWORD` | Database credentials | set your own |
+| `DB_URL` | Connection URL listed in `.env.example` (not referenced by the backend code; TODO: confirm) | |
+| `CLIENT_URL` | Allowed frontend origin for CORS | `http://localhost:3000` |
+
+Frontend: `REACT_APP_API_URL` (default `http://localhost:8000/api`).
 
 ## 🚀 Running the Application
 
@@ -122,6 +142,18 @@ cd frontend
 npm start
 ```
 The frontend will run on `http://localhost:3000`
+
+### Docker Compose
+
+```bash
+docker compose up --build
+```
+
+`docker-compose.yml` starts PostgreSQL 15, the backend on port 8000 and the frontend (nginx) on http://localhost:3000. The compose file contains demo credentials and a placeholder `JWT_SECRET`; change them before any real deployment.
+
+### Kubernetes
+
+Manifests for namespace, config, secret, PostgreSQL, backend, frontend and ingress are in [`k8s/`](k8s/). `k8s/secret.yaml` holds base64-encoded values, which are not encryption: replace them with your own and do not commit real ones. See [`k8s/README.md`](k8s/README.md); note that some scripts it mentions (for example `deploy.sh`) are not present in the repository.
 
 ### Production Mode
 
@@ -198,6 +230,12 @@ Content-Type: application/json
 }
 ```
 
+#### Get Task
+```http
+GET /api/tasks/:id
+Authorization: Bearer <jwt_token>
+```
+
 #### Update Task
 ```http
 PUT /api/tasks/:id
@@ -214,6 +252,18 @@ Content-Type: application/json
 ```http
 DELETE /api/tasks/:id
 Authorization: Bearer <jwt_token>
+```
+
+## 📁 Project Structure
+
+```
+Task-Manager-application/
+├── backend/          # Express API (config, controllers, middleware, models, routes, utils)
+├── frontend/         # React app (components, context, pages, services) + nginx.conf
+├── k8s/              # Kubernetes manifests
+├── docker-compose.yml
+├── SETUP.md          # Short setup guide
+└── .github/workflows/lint.yml   # Lint workflow
 ```
 
 ## 🔒 Security Features
@@ -338,9 +388,13 @@ CREATE TABLE tasks (
 5. Open a Pull Request
 
 
+## 📄 License
+
+Released under the [MIT License](LICENSE).
+
 ## 👨‍💻 Author
 
-Your Name - contact.khatiwaxx@gmail.com
+Umesh Khatiwada - [github.com/umesh-khatiwada](https://github.com/umesh-khatiwada)
 
 Project Link: [https://github.com/umesh-khatiwada/Task-Manager-application](https://github.com/umesh-khatiwada/Task-Manager-application)
 
